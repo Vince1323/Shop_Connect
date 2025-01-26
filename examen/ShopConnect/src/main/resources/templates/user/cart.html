@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Page du Panier</title>
+</head>
+<body>
+<section>
+	<!-- Conteneur principal -->
+	<div class="container-fluid mt-5 p-5">
+		<div class="card card-sh">
+			<!-- En-tête de la carte -->
+			<div class="card-header text-center">
+				<p class="fs-4">Page du Panier</p>
+				<!-- Message de succès -->
+				<th:block th:if="${session.succMsg}">
+					<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+				<!-- Message d'erreur -->
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+			</div>
+
+			<!-- Corps de la carte -->
+			<div class="card-body">
+				<!-- Tableau des articles du panier -->
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">N°</th> <!-- Numéro de série -->
+						<th scope="col">Image</th> <!-- Image du produit -->
+						<th scope="col">Nom du Produit</th> <!-- Titre du produit -->
+						<th scope="col">Prix</th> <!-- Prix unitaire -->
+						<th scope="col" class="text-center">Quantité</th> <!-- Quantité -->
+						<th scope="col">Prix Total</th> <!-- Prix total -->
+					</tr>
+					</thead>
+					<tbody>
+					<!-- Itération sur les articles du panier -->
+					<tr th:each="cart, c : ${carts}">
+						<th scope="row">[[${c.count}]]</th> <!-- Numéro d'article -->
+						<td>
+							<!-- Image du produit -->
+							<img th:src="@{'/img/product_img/'+${cart.product.image}}" width="70px" height="70px">
+						</td>
+						<td>[[${cart.product.title}]]</td>
+						<td>[[${cart.product.discountPrice}]] €</td>
+						<td class="text-center">
+							<!-- Augmenter ou diminuer la quantité -->
+							<a th:href="@{'/user/cartQuantityUpdate?sy=de&cid='+${cart.id}}">
+								<i class="fa-solid fa-minus"></i>
+							</a>
+							[ [[${cart.quantity}]] ]
+							<a th:href="@{'/user/cartQuantityUpdate?sy=in&cid='+${cart.id}}">
+								<i class="fa-solid fa-plus"></i>
+							</a>
+						</td>
+						<td>[[${cart.totalPrice}]] €</td> <!-- Prix total pour cet article -->
+					</tr>
+					<!-- Prix total général -->
+					<tr>
+						<td colspan="4"></td>
+						<td class="fw-bold">Prix Total</td>
+						<td class="fw-bold">[[${totalOrderPrice}]] €</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<!-- Bouton pour passer au paiement -->
+				<div class="text-center">
+					<a href="/user/orders" class="btn btn-warning">Payer</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

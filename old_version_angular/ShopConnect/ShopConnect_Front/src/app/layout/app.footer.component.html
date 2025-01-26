@@ -1,0 +1,71 @@
+<div class="layout-footer">
+    <!-- Section de description à gauche -->
+    <div class="footer-description">
+        <p>  <button pButton class="p-button layout-menu-button layout-topbar-button" 
+            style="width: 115px; height: 35px; padding: 3px; border-radius: 5px;">
+            <img src="../../assets/layout/images/logo_menu.png" alt="logo" style="height: 75px; width: 100px;" />
+        </button> </p> <p>A COMPLETER ❗ </p>
+    </div>
+
+
+    <!-- Section des réseaux sociaux à droite -->
+    <div class="footer-social">
+        <p>Nous contacter?</p>
+        <div class="social-links">
+            <ng-container *ngFor="let link of socialLinks">
+                <a [href]="link.url" target="_blank" rel="noopener noreferrer">
+                    <i [class]="link.icon" [style.color]="layoutService.config().socialIconColor"></i>
+                </a>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Style en ligne pour une meilleure visibilité -->
+<style>
+    .layout-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+      
+        font-family: Arial, sans-serif;
+    }
+
+    .footer-description {
+        flex: 1;
+        padding-right: 20px;
+        font-size: 14px;
+    }
+
+    .footer-logo {
+        text-align: center;
+        flex: 1;
+    }
+
+    .footer-social {
+        text-align: right;
+        flex: 1;
+    }
+
+    .footer-social p {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+    }
+
+    .social-links a {
+        font-size: 24px;
+        transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+        color: #007bff;
+    }
+</style>

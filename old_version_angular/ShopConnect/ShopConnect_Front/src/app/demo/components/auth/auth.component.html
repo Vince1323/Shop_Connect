@@ -1,0 +1,73 @@
+<!-- Formulaire Login -->
+<form (ngSubmit)="login()" *ngIf="!showRegistration" [formGroup]="loginForm">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Connexion</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput type="email" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input formControlName="password" matInput type="password" required />
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Se connecter</button>
+      <button mat-button (click)="showRegistration = true">Créer un compte</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+<!-- Formulaire Register -->
+<form (ngSubmit)="register()" *ngIf="showRegistration" [formGroup]="registrationForm">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Inscription</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Prénom</mat-label>
+        <input formControlName="firstname" matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nom</mat-label>
+        <input formControlName="lastname" matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date de naissance</mat-label>
+        <input formControlName="birthDate" matInput type="date" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Téléphone</mat-label>
+        <input formControlName="phone" matInput type="tel" />
+      </mat-form-field>
+      <mat-card-subtitle>Adresse</mat-card-subtitle>
+      <mat-form-field>
+        <mat-label>Rue</mat-label>
+        <input formControlName="address.street" matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ville</mat-label>
+        <input formControlName="address.city" matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Code postal</mat-label>
+        <input formControlName="address.zipCode" matInput type="text" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pays</mat-label>
+        <input formControlName="address.country" matInput type="text" required />
+      </mat-form-field>
+      <mat-checkbox formControlName="hasReadTermsAndConditions" required>
+        J'ai lu et accepté les conditions générales
+      </mat-checkbox>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">S'inscrire</button>
+      <button mat-button (click)="showRegistration = false">Se connecter</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

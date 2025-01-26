@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ajouter un Produit</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<section>
+	<div class="container p-5 mt-3">
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				<div class="card card-sh">
+					<!-- En-tête -->
+					<div class="card-header text-center">
+						<p class="fs-4">Ajouter un Produit</p>
+						<!-- Message de succès -->
+						<th:block th:if="${session.succMsg}">
+							<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<!-- Message d'erreur -->
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+					</div>
+
+					<!-- Corps -->
+					<div class="card-body">
+						<form action="/admin/saveProduct" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+							<!-- Champ pour le titre -->
+							<div class="mb-3">
+								<label for="title" class="form-label">Saisir le Titre</label>
+								<input type="text" id="title" name="title" class="form-control" placeholder="Entrez le titre du produit" required>
+								<div class="invalid-feedback">Le titre est obligatoire.</div>
+							</div>
+
+							<!-- Champ pour la description -->
+							<div class="mb-3">
+								<label for="description" class="form-label">Saisir la Description</label>
+								<textarea id="description" rows="3" class="form-control" name="description" placeholder="Entrez la description" required></textarea>
+								<div class="invalid-feedback">La description est obligatoire.</div>
+							</div>
+
+							<!-- Champ pour la catégorie -->
+							<div class="mb-3">
+								<label for="category" class="form-label">Catégorie</label>
+								<select id="category" class="form-control" name="category" required>
+									<option value="">--Sélectionnez--</option>
+									<option th:each="c:${categories}" th:value="${c.name}" th:text="${c.name}"></option>
+								</select>
+
+								<div class="invalid-feedback">Veuillez sélectionner une catégorie.</div>
+							</div>
+
+							<!-- Champ pour le prix -->
+							<div class="mb-3">
+								<label for="price" class="form-label">Saisir le Prix</label>
+								<input
+										type="number"
+										id="price"
+										name="price"
+										class="form-control"
+										placeholder="Entrez le prix"
+										step="0.01"
+										min="0"
+										required
+										oninvalid="this.setCustomValidity('Veuillez entrer un prix valide avec deux décimales.')"
+										oninput="this.setCustomValidity('')"
+								>
+								<div class="invalid-feedback">Veuillez entrer un prix valide.</div>
+							</div>
+
+							<!-- Statut du produit -->
+							<div class="mb-3">
+								<label class="form-label">Statut</label>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" checked value="true" name="isActive" id="flexRadioDefault1">
+									<label class="form-check-label" for="flexRadioDefault1">Actif</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="isActive" value="false" id="flexRadioDefault2">
+									<label class="form-check-label" for="flexRadioDefault2">Inactif</label>
+								</div>
+							</div>
+
+							<!-- Stock et image -->
+							<div class="row">
+								<div class="mb-3 col">
+									<label for="stock" class="form-label">Saisir le Stock</label>
+									<input type="number" id="stock" name="stock" class="form-control" placeholder="Entrez le stock disponible" min="0" required>
+									<div class="invalid-feedback">Veuillez entrer une quantité en stock.</div>
+								</div>
+								<div class="mb-3 col">
+									<label for="file" class="form-label">Importer une Image</label>
+									<input type="file" id="file" name="file" class="form-control" required>
+									<div class="invalid-feedback">Veuillez importer une image.</div>
+								</div>
+							</div>
+
+							<!-- Bouton de soumission -->
+							<button type="submit" class="btn btn-primary col-md-12">Soumettre</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script>
+	// Validation Bootstrap
+	(() => {
+		'use strict';
+		const forms = document.querySelectorAll('.needs-validation');
+		Array.from(forms).forEach(form => {
+			form.addEventListener('submit', event => {
+				if (!form.checkValidity()) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				form.classList.add('was-validated');
+			}, false);
+		});
+	})();
+</script>
+<script>
+	// Validation spécifique pour le prix
+	document.getElementById('price').addEventListener('input', function (event) {
+		const value = event.target.value;
+		if (!/^\d+(\.\d{0,2})?$/.test(value)) {
+			event.target.value = value.slice(0, -1); // Retire le dernier caractère invalide
+		}
+	});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

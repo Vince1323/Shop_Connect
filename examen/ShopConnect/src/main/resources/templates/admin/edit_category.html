@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifier une Catégorie</title>
+</head>
+<body>
+<section>
+	<div class="container-fluid p-5 mt-5">
+		<div class="row">
+			<div class="col-md-3 offset-md-5">
+				<div class="card card-sh">
+					<!-- En-tête -->
+					<div class="card-header text-center">
+						<p class="fs-4">Modifier une Catégorie</p>
+						<!-- Message de succès -->
+						<th:block th:if="${session.succMsg}">
+							<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<!-- Message d'erreur -->
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+					</div>
+
+					<!-- Corps -->
+					<div class="card-body">
+						<form action="/admin/updateCategory" method="post" enctype="multipart/form-data">
+							<!-- Champ caché pour l'ID -->
+							<input type="hidden" name="id" th:value="${category.id}">
+
+							<!-- Champ pour le nom de la catégorie -->
+							<div class="mb-3">
+								<label>Nom de la Catégorie</label>
+								<input type="text" name="name" th:value="${category.name}" class="form-control" placeholder="Entrez le nom de la catégorie">
+							</div>
+
+							<!-- Statut -->
+							<div class="mb-3">
+								<label>Statut</label>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" th:checked="${category.isActive==true}" value="true" name="isActive" id="flexRadioDefault1">
+									<label class="form-check-label" for="flexRadioDefault1">Actif</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" th:checked="${category.isActive==false}" value="false" name="isActive" id="flexRadioDefault2">
+									<label class="form-check-label" for="flexRadioDefault2">Inactif</label>
+								</div>
+							</div>
+
+							<!-- Champ pour télécharger une image -->
+							<div class="mb-3">
+								<label>Importer une Image</label>
+								<input type="file" name="file" class="form-control">
+							</div>
+
+							<!-- Affichage de l'image actuelle -->
+							<img th:src="@{'/img/category_img/'+${category.imageName}}" width="100px" height="100px" alt="Image actuelle">
+
+							<!-- Bouton de mise à jour -->
+							<button class="btn btn-primary col-md-12 mt-2">Mettre à Jour</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

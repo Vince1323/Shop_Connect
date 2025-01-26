@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Modifier un Produit</title>
+</head>
+<body>
+<section>
+	<div class="container p-5 mt-3">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<div class="card card-sh">
+					<!-- En-tête -->
+					<div class="card-header text-center">
+						<p class="fs-4">Modifier un Produit</p>
+						<!-- Message de succès -->
+						<th:block th:if="${session.succMsg}">
+							<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<!-- Message d'erreur -->
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+					</div>
+
+					<!-- Corps -->
+					<div class="card-body">
+						<form action="/admin/updateProduct" method="post" enctype="multipart/form-data">
+							<!-- Champ caché pour l'ID du produit -->
+							<input type="hidden" name="id" th:value="${product.id}">
+
+							<!-- Champ pour le titre du produit -->
+							<div class="mb-3">
+								<label>Titre</label>
+								<input type="text" name="title" th:value="${product.title}" class="form-control" placeholder="Entrez le titre du produit">
+							</div>
+
+							<!-- Champ pour la description -->
+							<div class="mb-3">
+								<label>Description</label>
+								<textarea rows="3" class="form-control" name="description">[[${product.description}]]</textarea>
+							</div>
+
+							<!-- Catégorie et prix -->
+							<div class="row">
+								<div class="mb-3 col">
+									<label>Catégorie</label>
+									<select class="form-control" name="category">
+										<option>[[${product.category}]]</option>
+										<option th:each="c:${categories}">[[${c.name}]]</option>
+									</select>
+								</div>
+								<div class="mb-3 col">
+									<label>Prix</label>
+									<input type="number" name="price" th:value="${product.price}" class="form-control" placeholder="Entrez le prix">
+								</div>
+							</div>
+
+							<!-- Remise et prix remisé -->
+							<div class="row">
+								<div class="mb-3 col">
+									<label>Remise (%)</label>
+									<input type="number" name="discount" th:value="${product.discount}" class="form-control">
+								</div>
+								<div class="mb-3 col">
+									<label>Prix après Remise</label>
+									<input type="number" readonly th:value="${product.discountPrice}" class="form-control">
+								</div>
+							</div>
+
+							<!-- Statut -->
+							<div class="mb-3">
+								<label>Statut</label>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" th:checked="${product.isActive==true}" value="true" name="isActive" id="active">
+									<label class="form-check-label" for="active">Actif</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" th:checked="${product.isActive==false}" value="false" name="isActive" id="inactive">
+									<label class="form-check-label" for="inactive">Inactif</label>
+								</div>
+							</div>
+
+							<!-- Stock et image -->
+							<div class="row">
+								<div class="mb-3 col">
+									<label>Stock</label>
+									<input type="text" name="stock" th:value="${product.stock}" class="form-control" placeholder="Entrez le stock disponible">
+								</div>
+								<div class="mb-3 col">
+									<label>Importer une Image</label>
+									<input type="file" name="file" class="form-control">
+								</div>
+								<div class="mt-1">
+									<img th:src="@{'/img/product_img/'+${product.image}}" width="100px" height="100px" alt="Image actuelle">
+								</div>
+							</div>
+
+							<!-- Bouton de mise à jour -->
+							<button class="btn btn-primary col-md-12">Mettre à Jour</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

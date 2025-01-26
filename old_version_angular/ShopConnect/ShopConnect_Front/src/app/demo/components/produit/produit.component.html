@@ -1,0 +1,111 @@
+<p-toast></p-toast> <!-- Composant pour afficher les notifications -->
+
+<!-- Entête avec bouton pour ajouter un nouveau produit -->
+<div class="header-container">
+    <h3>Produits
+        <p-button icon="pi pi-plus" class="p-button-info" (click)="newProduit()" tooltip="Ajouter un produit"></p-button>
+    </h3>
+</div>
+
+<!-- Dialogue pour créer un nouveau produit -->
+<p-dialog header="Créer un nouveau Produit" [modal]="true" [(visible)]="showCreateDialog" [style]="{ width: '50rem' }">
+    <form #createProduitForm="ngForm" class="p-fluid">
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="nom">Nom</label>
+            <input id="nom" type="text" pInputText [(ngModel)]="new.nom" name="nom" required />
+        </div>
+
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="description">Description</label>
+            <input id="description" type="text" pInputText [(ngModel)]="new.description" name="description" required />
+        </div>
+
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="prix">Prix</label>
+            <input id="prix" type="number" pInputText [(ngModel)]="new.prix" name="prix" required />
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button icon="pi pi-times" (click)="showCreateDialog = false" tooltip="Annuler"></p-button>
+            <p-button icon="pi pi-check" (click)="saveProduit()" [disabled]="!createProduitForm.valid" tooltip="Sauvegarder"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- Dialogue pour modifier un produit existant -->
+<p-dialog header="Modifier Produit" [modal]="true" [(visible)]="showEditDialog" [style]="{ width: '50rem' }">
+    <form #editProduitForm="ngForm" class="p-fluid">
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="nom">Nom</label>
+            <input id="nom" type="text" pInputText [(ngModel)]="new.nom" name="nom" required />
+        </div>
+
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="description">Description</label>
+            <input id="description" type="text" pInputText [(ngModel)]="new.description" name="description" required />
+        </div>
+
+        <div class="flex flex-column gap-3 mb-3">
+            <label for="prix">Prix</label>
+            <input id="prix" type="number" pInputText [(ngModel)]="new.prix" name="prix" required />
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button icon="pi pi-times" (click)="showEditDialog = false" tooltip="Annuler"></p-button>
+            <p-button icon="pi pi-check" (click)="saveProduit()" [disabled]="!editProduitForm.valid" tooltip="Sauvegarder"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- Dialogue pour les détails d'un produit -->
+<p-dialog header="ℹ️ Détails du Produit" [(visible)]="viewDetailsVisible" [modal]="true" [style]="{width: '40rem'}">
+    <div *ngIf="selectedProduit">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label>Nom : {{ selectedProduit.nom }}</label>
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label>Description: {{ selectedProduit.description }}</label>
+        </div>
+        <div class="flex align-items-center gap-3 mb-3">
+            <label>Prix: {{ selectedProduit.prix }} €</label>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Fermer" (click)="viewDetailsVisible = false"></p-button>
+    </div>
+</p-dialog>
+
+<!-- Tableau des produits avec pagination -->
+<p-table [value]="produits" [paginator]="true" [rows]="10" [responsive]="true" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="nom" style="width:20%">Nom <p-sortIcon field="nom"></p-sortIcon></th>
+            <th pSortableColumn="description" style="width:25%">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="prix" style="width:15%">Prix (€) <p-sortIcon field="prix"></p-sortIcon></th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="nom" [showClearButton]="false"></p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter type="text" field="description" [showClearButton]="false"></p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter type="number" field="prix" [showClearButton]="false"></p-columnFilter>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-produit>
+        <tr>
+            <td>{{ produit.nom }}</td>
+            <td>{{ produit.description }}</td>
+            <td>{{ produit.prix }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="p-button-success" (click)="editProduit(produit)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-danger" (click)="confirmDeleteProduit(produit)"></p-button>
+                <p-button icon="pi pi-eye" class="p-button-info" (click)="viewDetailsProduit(produit)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

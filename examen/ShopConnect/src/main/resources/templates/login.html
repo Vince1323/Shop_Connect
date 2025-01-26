@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Connexion</title>
+</head>
+<body>
+<section>
+	<div class="container mt-5 p-5">
+		<div class="row">
+			<!-- Espacement pour alignement -->
+			<div class="col-md-3 p-2"></div>
+
+			<!-- Formulaire de connexion -->
+			<div class="col-md-6 mt-3 p-5">
+				<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+					<!-- En-tête du formulaire -->
+					<div class="card-header">
+						<p class="fs-4 text-center">Connexion</p>
+						<!-- Message d'erreur lors d'une tentative échouée -->
+						<div th:if="${param.error}" class="alert alert-danger text-center">
+							<th:block th:if="${session.SPRING_SECURITY_LAST_EXCEPTION!=null}">
+								[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+							</th:block>
+						</div>
+						<!-- Message de succès lors de la déconnexion -->
+						<div th:if="${param.logout}" class="alert alert-success">
+							Déconnexion réussie
+						</div>
+					</div>
+
+					<!-- Corps du formulaire -->
+					<div class="card-body">
+						<form action="/login" method="post">
+							<!-- Champ email -->
+							<div class="mb-3">
+								<label class="form-label">Email</label>
+								<input required class="form-control" name="username" type="email" placeholder="Entrez votre email">
+							</div>
+
+							<!-- Champ mot de passe -->
+							<div class="mb-3">
+								<label class="form-label">Mot de passe</label>
+								<input required class="form-control" name="password" type="password" placeholder="Entrez votre mot de passe">
+							</div>
+
+							<!-- Bouton de soumission -->
+							<button type="submit" class="btn bg-primary text-white col-md-12">Se connecter</button>
+						</form>
+					</div>
+
+					<!-- Pied de page avec liens supplémentaires -->
+					<div class="card-footer text-center">
+						<a href="/forgot-password" class="text-decoration-none">Mot de passe oublié</a><br>
+						Vous n'avez pas de compte ? <a href="/register" class="text-decoration-none">Créer un compte</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

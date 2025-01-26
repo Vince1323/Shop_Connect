@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ShopConnect # Chemin de la db
+    username: postgres
+    password: Vinyjeff
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show_sql: false
+
+application:
+  security:
+    jwt:
+      secret-key: Q5sslhgmQJOzLYUY0eIwup5hK5Zjv6cRAVdBcs1Lvi7z8MIelrJAjUa0NadsOqf
+      expiration: 86400000
+
+server:
+  port: '9292'
+  servlet:
+    context-path: /api

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Inscription</title>
+</head>
+<body>
+<section>
+	<div class="container mt-5 p-5">
+		<div class="row">
+			<!-- Espacement latéral pour l'alignement -->
+			<div class="col-md-2 p-2"></div>
+
+			<!-- Formulaire d'inscription -->
+			<div class="col-md-7 p-2">
+				<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+					<!-- En-tête du formulaire -->
+					<div class="card-header text-center">
+						<p class="fs-4 text-center">Inscription</p>
+						<!-- Message de succès -->
+						<th:block th:if="${session.succMsg}">
+							<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<!-- Message d'erreur -->
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+					</div>
+
+					<!-- Corps du formulaire -->
+					<div class="card-body">
+						<form action="/saveUser" enctype="multipart/form-data" id="userRegister" novalidate method="post">
+							<!-- Informations personnelles -->
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Nom complet</label>
+									<input required class="form-control" name="name" type="text" placeholder="Entrez votre nom complet">
+								</div>
+								<div class="col">
+									<label class="form-label">Numéro de mobile</label>
+									<input required class="form-control" name="mobileNumber" type="number" placeholder="Entrez votre numéro de téléphone">
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Email</label>
+								<input required class="form-control" name="email"
+									   type="email" placeholder="Entrez votre email">
+							</div>
+
+							<!-- Adresse -->
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Adresse</label>
+									<input required class="form-control" name="address" type="text" placeholder="Entrez votre adresse">
+								</div>
+								<div class="col">
+									<label class="form-label">Ville</label>
+									<input required class="form-control" name="city" type="text" placeholder="Entrez votre ville">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<label class="form-label">État</label>
+									<input required class="form-control" name="state" type="text" placeholder="Entrez votre région">
+								</div>
+								<div class="col">
+									<label class="form-label">Code postal</label>
+									<input required class="form-control" name="pincode" type="number" placeholder="Entrez votre code postal">
+								</div>
+							</div>
+
+							<!-- Mot de passe -->
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Mot de passe</label>
+									<input required class="form-control" name="password" type="password" id="pass" placeholder="Entrez un mot de passe">
+								</div>
+								<div class="col">
+									<label class="form-label">Confirmer le mot de passe</label>
+									<input required class="form-control" name="confirmpassword" type="password" placeholder="Confirmez votre mot de passe">
+								</div>
+							</div>
+
+							<!-- Image de profil -->
+							<div class="mb-3">
+								<label class="form-label">Image de profil</label>
+								<input class="form-control" name="img" type="file">
+							</div>
+
+							<!-- Bouton de soumission -->
+							<button type="submit" class="btn bg-primary text-white col-md-12">S'inscrire</button>
+						</form>
+					</div>
+
+					<!-- Pied de page avec lien de connexion -->
+					<div class="card-footer text-center">
+						Vous avez déjà un compte ? <a href="/login" class="text-decoration-none">Se connecter</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

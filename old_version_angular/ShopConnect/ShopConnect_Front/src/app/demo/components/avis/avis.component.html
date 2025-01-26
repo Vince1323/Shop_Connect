@@ -1,0 +1,138 @@
+<!-- En-tête avec bouton pour ajouter un avis -->
+<div class="header-container">
+    <h3>Avis
+        <!-- Bouton pour ouvrir le formulaire de création d'un nouvel avis -->
+        <p-button icon="pi pi-plus" class="p-button-info" (click)="newAvis()"></p-button>
+    </h3>
+</div>
+
+<!-- Dialog pour créer ou modifier un avis -->
+<p-dialog
+    header="{{ new.id ? 'Modifier Avis' : 'Créer un nouvel Avis' }}"
+    [modal]="true"
+    [(visible)]="show"
+    [style]="{ width: '50rem' }">
+    <form #avisForm="ngForm">
+        <!-- Titre du formulaire -->
+        <div class="p-text-secondary block mb-5">
+            <h3>{{ new.id ? 'Modifier Avis' : 'Créer un nouvel Avis' }}</h3>
+        </div>
+
+        <!-- Champ de commentaire -->
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="commentaire" class="font-semibold w-6rem">Commentaire</label>
+            <input
+                pInputText
+                id="commentaire"
+                class="flex-auto"
+                autocomplete="off"
+                [(ngModel)]="new.commentaire"
+                name="commentaire"
+                required
+            />
+        </div>
+
+        <!-- Champ de note -->
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="note" class="font-semibold w-6rem">Note</label>
+            <input
+                type="number"
+                pInputText
+                id="note"
+                class="flex-auto"
+                autocomplete="off"
+                [(ngModel)]="new.note"
+                name="note"
+                required
+                min="0"
+                max="5"
+            />
+        </div>
+
+        <!-- Boutons du formulaire -->
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Retour" severity="secondary" (click)="show = false"></p-button>
+            <p-button label="Sauver" (click)="sauver()" [disabled]="!avisForm.valid"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- Dialog pour afficher les détails d'un avis -->
+<p-dialog
+    header="Détails de l'Avis"
+    [(visible)]="viewDetailsVisible"
+    [modal]="true"
+    [style]="{ width: '50rem' }">
+    <div *ngIf="selectedAvis">
+        <div>
+            <h5>Commentaire : {{ selectedAvis.commentaire }}</h5>
+        </div>
+        <div>
+            <h5>Note: {{ selectedAvis.note }}</h5>
+        </div>
+    </div>
+    <!-- Bouton pour fermer le dialogue -->
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Fermer" (click)="viewDetailsVisible = false"></p-button>
+    </div>
+</p-dialog>
+
+<!-- Tableau pour afficher la liste des avis -->
+<p-table
+    [value]="avis"
+    [paginator]="true"
+    [rows]="10"
+    [responsive]="true"
+    sortField="commentaire"
+    sortOrder="1">
+    <!-- En-tête du tableau -->
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="commentaire" style="width:50%">
+                Commentaire <p-sortIcon field="commentaire"></p-sortIcon>
+            </th>
+            <th pSortableColumn="note" style="width:20%">
+                Note <p-sortIcon field="note"></p-sortIcon>
+            </th>
+            <th>Actions</th>
+        </tr>
+        <!-- Ligne de filtrage -->
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="commentaire" [showClearButton]="false"></p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter type="text" field="note" [showClearButton]="false"></p-columnFilter>
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+
+    <!-- Corps du tableau -->
+    <ng-template pTemplate="body" let-avis>
+        <tr>
+            <td>{{ avis.commentaire }}</td>
+            <td>{{ avis.note }}</td>
+            <td>
+                <!-- Bouton pour modifier un avis -->
+                <p-button
+                    icon="pi pi-pencil"
+                    class="p-button-success"
+                    (click)="editAvis(avis)">
+                </p-button>
+                <!-- Bouton pour supprimer un avis -->
+                <p-button
+                    icon="pi pi-trash"
+                    class="p-button-danger"
+                    (click)="confirmDeleteAvis(avis)">
+                </p-button>
+                <!-- Bouton pour afficher les détails d'un avis -->
+                <p-button
+                    icon="pi pi-eye"
+                    class="p-button-info"
+                    (click)="viewDetailsAvis(avis)">
+                </p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

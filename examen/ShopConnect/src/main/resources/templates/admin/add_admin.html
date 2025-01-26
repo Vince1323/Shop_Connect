@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajouter un Administrateur</title>
+</head>
+<body>
+<section>
+	<div class="container mt-5 p-5">
+		<div class="row">
+			<div class="col-md-7 p-2 offset-md-2">
+				<div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+					<!-- En-tête -->
+					<div class="card-header text-center">
+						<p class="fs-4 text-center">Ajouter un Administrateur</p>
+						<!-- Message de succès -->
+						<th:block th:if="${session.succMsg}">
+							<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<!-- Message d'erreur -->
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+					</div>
+
+					<!-- Corps -->
+					<div class="card-body">
+						<form action="/admin/save-admin" enctype="multipart/form-data" method="post">
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Nom Complet</label>
+									<input required class="form-control" name="name" type="text" placeholder="Entrez le nom complet">
+								</div>
+								<div class="col">
+									<label class="form-label">Numéro de Téléphone</label>
+									<input required class="form-control" name="mobileNumber" type="number" placeholder="Entrez le numéro">
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Email</label>
+								<input required class="form-control" name="email" type="email" placeholder="Entrez l'email">
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Adresse</label>
+									<input required class="form-control" name="address" type="text" placeholder="Entrez l'adresse">
+								</div>
+								<div class="col">
+									<label class="form-label">Ville</label>
+									<input required class="form-control" name="city" type="text" placeholder="Entrez la ville">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Région</label>
+									<input required class="form-control" name="state" type="text" placeholder="Entrez la région">
+								</div>
+								<div class="col">
+									<label class="form-label">Code Postal</label>
+									<input required class="form-control" name="pincode" type="number" placeholder="Entrez le code postal">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col">
+									<label class="form-label">Mot de Passe</label>
+									<input required class="form-control" name="password" type="password" placeholder="Entrez le mot de passe">
+								</div>
+								<div class="col">
+									<label class="form-label">Confirmez le Mot de Passe</label>
+									<input required class="form-control" name="cpassword" type="password" placeholder="Confirmez le mot de passe">
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<label class="form-label">Image de Profil</label>
+								<input class="form-control" name="img" type="file">
+							</div>
+
+							<button type="submit" class="btn bg-primary text-white col-md-12">Enregistrer</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>

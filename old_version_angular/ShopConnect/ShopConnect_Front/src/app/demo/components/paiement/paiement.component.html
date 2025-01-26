@@ -1,0 +1,78 @@
+<div class="header-container">
+    <h3>Paiements
+        <p-button icon="pi pi-plus" class="p-button-info" (click)="newPaiement()"></p-button>
+    </h3>
+</div>
+
+<!-- Dialogue pour créer ou éditer un paiement -->
+<p-dialog header="{{ new.id ? 'Modifier Paiement' : 'Créer un nouveau Paiement' }}" [modal]="true" [(visible)]="show" [style]="{ width: '80rem' }">
+    <form #paiementForm="ngForm">
+        <div class="p-text-secondary block mb-5">
+            <h3>{{ new.id ? 'Modifier Paiement' : 'Créer un nouveau Paiement' }}</h3>
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="methodePaiement" class="font-semibold w-6rem">Méthode</label>
+            <input pInputText id="methodePaiement" class="flex-auto" autocomplete="off" [(ngModel)]="new.methodePaiement" name="methodePaiement" required />
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="montant" class="font-semibold w-6rem">Montant</label>
+            <input pInputText id="montant" class="flex-auto" autocomplete="off" [(ngModel)]="new.montant" name="montant" required />
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Retour" severity="secondary" (click)="show = false"></p-button>
+            <p-button label="Sauver" (click)="sauver()" [disabled]="!paiementForm.valid"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<!-- Dialogue pour les détails d'un paiement -->
+<p-dialog header="Détails du Paiement" [(visible)]="viewDetailsVisible" [modal]="true" [style]="{width: '80rem'}">
+    <div *ngIf="selectedPaiement">
+        <div>
+            <h5>Méthode : {{ selectedPaiement.methodePaiement }} </h5>
+        </div>
+        <div>
+            <h5>Montant: {{ selectedPaiement.montant }}</h5>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Fermer" (click)="viewDetailsVisible = false"></p-button>
+    </div>
+</p-dialog>
+
+<!-- Tableau des paiements avec pagination -->
+<p-table [value]="paiements" [paginator]="true" [rows]="10" [responsive]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="methodePaiement" style="width:20%">
+                Méthode <p-sortIcon field="methodePaiement" />
+            </th>
+            <th pSortableColumn="montant" style="width:20%">
+                Montant <p-sortIcon field="montant" />
+            </th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="methodePaiement" [showClearButton]="false" />
+            </th>
+            <th>
+                <p-columnFilter type="text" field="montant" [showClearButton]="false" />
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-paiement>
+        <tr>
+            <td>{{ paiement.methodePaiement }}</td>
+            <td>{{ paiement.montant }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="p-button-success" (click)="editPaiement(paiement)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-danger" (click)="confirmDeletePaiement(paiement)"></p-button>
+                <p-button icon="pi pi-eye" class="p-button-info" (click)="viewDetailsPaiement(paiement)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

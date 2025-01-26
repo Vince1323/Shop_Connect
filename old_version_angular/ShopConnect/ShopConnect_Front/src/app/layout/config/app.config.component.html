@@ -1,0 +1,79 @@
+<button class="layout-config-button p-link" type="button" (click)="onConfigButtonClick()">
+    <i class="pi pi-cog"></i>
+</button>
+
+<p-sidebar [(visible)]="visible" position="right" [transitionOptions]="'.3s cubic-bezier(0, 0, 0.2, 1)'"
+    styleClass="layout-config-sidebar w-20rem">
+    <h3>Zoom</h3>
+    <div class="flex align-items-center">
+        <button icon="pi pi-minus" type="button" pButton (click)="decrementScale()"
+            class="p-button-text p-button-rounded w-6rem h-4rem mr-2" [disabled]="scale === scales[0]"></button>
+        <div class="flex gap-2 align-items-center">
+            <i class="pi pi-circle-fill text-300" *ngFor="let s of scales"
+                [ngClass]="{'text-primary-500': s === scale}"></i>
+        </div>
+        <button icon="pi pi-plus" type="button" pButton (click)="incrementScale()"
+            class="p-button-text p-button-rounded w-6rem h-4rem ml-2"
+            [disabled]="scale === scales[scales.length - 1]"></button>
+    </div>
+    <div style="height: 7rem;"></div>
+
+    <h3>Configurations</h3>
+    <div style="height: 4rem;"></div>
+    <h4>Mode Clair</h4>
+    <div class="grid">
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('saga-blue', 'light')">
+                <img src="assets/layout/images/themes/saga-blue.png" class="w-6rem h-4rem" alt="Saga Blue">
+            </button>
+        </div>
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('saga-green', 'light')">
+                <img src="assets/layout/images/themes/saga-green.png" class="w-6rem h-4rem" alt="Saga Green">
+            </button>
+        </div>
+    </div>    
+
+    <div class="grid">   
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('saga-orange', 'light')">
+                <img src="assets/layout/images/themes/saga-orange.png" class="w-6rem h-4rem" alt="Saga Orange">
+            </button>
+        </div>
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('saga-purple', 'light')">
+                <img src="assets/layout/images/themes/saga-purple.png" class="w-6rem h-4rem" alt="Saga Purple">
+            </button>
+        </div>
+    </div>    
+    <div style="height: 4rem;"></div>
+    <h4>Mode Sombre</h4>
+    <div class="grid">   
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('vela-blue', 'dark')">
+                <img src="assets/layout/images/themes/vela-blue.png" class="w-6rem h-4rem" alt="Vela Blue">
+            </button>
+        </div>
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('vela-green', 'dark')">
+                <img src="assets/layout/images/themes/vela-green.png" class="w-6rem h-4rem" alt="Vela Green">
+            </button>
+        </div>
+
+    </div>    
+
+    <div class="grid">   
+
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('vela-orange', 'dark')">
+                <img src="assets/layout/images/themes/vela-orange.png" class="w-6rem h-4rem" alt="Vela Orange">
+            </button>
+        </div>
+        <div class="col-3">
+            <button class="p-link w-6rem h-4rem" (click)="changeTheme('vela-purple', 'dark')">
+                <img src="assets/layout/images/themes/vela-purple.png" class="w-6rem h-4rem" alt="Vela Purple">
+            </button>
+        </div>
+        
+    </div>
+</p-sidebar>

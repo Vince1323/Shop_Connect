@@ -1,0 +1,75 @@
+<div class="header-container">
+    <h3>Promotions
+        <p-button icon="pi pi-plus" class="p-button-info" (click)="newPromotion()"></p-button>
+    </h3>
+</div>
+
+<p-dialog header="{{ new.id ? 'Modifier Promotion' : 'Créer une nouvelle Promotion' }}" [modal]="true" [(visible)]="show" [style]="{ width: '80rem' }">
+    <form #promotionForm="ngForm">
+        <div class="p-text-secondary block mb-5">
+            <h3>{{ new.id ? 'Modifier Promotion' : 'Créer une nouvelle Promotion' }}</h3>
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="code" class="font-semibold w-6rem">Code</label>
+            <input pInputText id="code" class="flex-auto" autocomplete="off" [(ngModel)]="new.code" name="code" required />
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="description" class="font-semibold w-6rem">Description</label>
+            <input pInputText id="description" class="flex-auto" autocomplete="off" [(ngModel)]="new.description" name="description" required />
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Retour" severity="secondary" (click)="show = false"></p-button>
+            <p-button label="Sauver" (click)="sauver()" [disabled]="!promotionForm.valid"></p-button>
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog header="Détails de la Promotion" [(visible)]="viewDetailsVisible" [modal]="true" [style]="{width: '80rem'}">
+    <div *ngIf="selectedPromotion">
+        <div>
+            <h5>Code : {{ selectedPromotion.code }} </h5>
+        </div>
+        <div>
+            <h5>Description: {{ selectedPromotion.description }}</h5>
+        </div>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Fermer" (click)="viewDetailsVisible = false"></p-button>
+    </div>
+</p-dialog>
+
+<p-table [value]="promotions" [paginator]="true" [rows]="10" [responsive]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="code" style="width:30%">
+                Code <p-sortIcon field="code" />
+            </th>
+            <th pSortableColumn="description" style="width:50%">
+                Description <p-sortIcon field="description" />
+            </th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter type="text" field="code" [showClearButton]="false" />
+            </th>
+            <th>
+                <p-columnFilter type="text" field="description" [showClearButton]="false" />
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-promotion>
+        <tr>
+            <td>{{ promotion.code }}</td>
+            <td>{{ promotion.description }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" class="p-button-success" (click)="editPromotion(promotion)"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-danger" (click)="confirmDeletePromotion(promotion)"></p-button>
+                <p-button icon="pi pi-eye" class="p-button-info" (click)="viewDetailsPromotion(promotion)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

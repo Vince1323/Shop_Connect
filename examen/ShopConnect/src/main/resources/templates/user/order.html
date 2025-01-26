@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Commander</title>
+</head>
+<body>
+<section>
+	<div class="container mt-5 p-5">
+		<!-- Formulaire de commande -->
+		<form action="/user/save-order" method="post" id="orders" novalidate>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="mb-3 row">
+						<p class="text-center fs-4">Adresse de Facturation</p>
+						<hr>
+						<div class="col p-1">
+							<label>Prénom</label>
+							<input type="text" name="firstName" required class="form-control mt-1" placeholder="Votre prénom">
+						</div>
+						<div class="col p-1">
+							<label>Nom</label>
+							<input type="text" name="lastName" required class="form-control mt-1" placeholder="Votre nom">
+						</div>
+					</div>
+
+					<div class="mb-3 row">
+						<div class="col p-1">
+							<label>Email</label>
+							<input type="email" name="email" required class="form-control col" placeholder="Votre email">
+						</div>
+						<div class="col p-1">
+							<label>Numéro de Téléphone</label>
+							<input type="text" name="mobileNo" required class="form-control col ms-2" placeholder="Votre numéro de téléphone">
+						</div>
+					</div>
+
+					<div class="mb-3 row">
+						<div class="col p-1">
+							<label>Adresse</label>
+							<input type="text" name="address" required class="form-control col" placeholder="Votre adresse">
+						</div>
+						<div class="col p-1">
+							<label>Ville</label>
+							<input type="text" name="city" required class="form-control col ms-2" placeholder="Votre ville">
+						</div>
+					</div>
+
+					<div class="mb-3 row">
+						<div class="col p-1">
+							<label>Région</label>
+							<input type="text" name="state" required class="form-control col" placeholder="Votre région">
+						</div>
+						<div class="col p-1">
+							<label>Code Postal</label>
+							<input type="number" name="pincode" required class="form-control col ms-2" placeholder="Votre code postal">
+						</div>
+					</div>
+				</div>
+
+				<!-- Type de paiement -->
+				<div class="col-md-6">
+					<p class="text-center fs-4">Type de Paiement</p>
+					<hr>
+					<div class="card">
+						<div class="card-body">
+							<table class="table table-borderless">
+								<tbody>
+								<tr>
+									<td>Prix total</td>
+									<td>:</td>
+									<td> [[${orderPrice}]] €</td>
+								</tr>
+								<tr>
+									<td>Frais de Livraison</td>
+									<td>:</td>
+									<td> 4 €</td>
+								</tr>
+								<tr>
+									<td>Taxe</td>
+									<td>:</td>
+									<td> 3 €</td>
+								</tr>
+								<tr class="border-top">
+									<td>Prix Total</td>
+									<td>:</td>
+									<td> [[${totalOrderPrice}]] €</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Sélection du type de paiement -->
+					<div class="card shadow p-3 mb-5 mt-2 bg-body-tertiary rounded">
+						<div class="card-body">
+							<div class="mb-3">
+								<label class="form-label">Sélectionnez le type de paiement</label>
+								<select required name="paymentType" class="form-control">
+									<option value="">--Sélectionner--</option>
+									<option value="COD">Paiement à la Livraison</option>
+									<option value="ONLINE">Paiement en Ligne</option>
+								</select>
+							</div>
+
+							<button class="btn bg-primary text-white col-md-12">Passer la Commande</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+</body>
+</html>

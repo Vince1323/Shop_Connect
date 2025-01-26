@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+	<meta charset="UTF-8">
+	<title>Liste des Produits</title>
+</head>
+<body>
+<section>
+	<div class="container-fluid mt-4 p-3">
+		<div class="row">
+			<!-- Titre de la page -->
+			<p class="text-center fs-3 mt-2">Tous les Produits</p>
+			<hr>
+
+			<!-- Lien de retour -->
+			<a href="/admin/" class="text-decoration-none"><i class="fa-solid fa-arrow-left"></i> Retour</a>
+
+			<!-- Message de succès -->
+			<th:block th:if="${session.succMsg}">
+				<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
+
+			<!-- Message d'erreur -->
+			<th:block th:if="${session.errorMsg}">
+				<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
+
+			<!-- Formulaire de recherche -->
+			<div class="col-md-4 p-3">
+				<form action="/admin/products" method="get">
+					<div class="row">
+						<div class="col">
+							<input type="text" class="form-control" name="ch" placeholder="Rechercher un produit">
+						</div>
+						<div class="col">
+							<button class="btn btn-primary col">Rechercher</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<!-- Tableau des produits -->
+			<div class="p-3">
+				<table class="table table-bordered">
+					<thead class="table-light">
+					<tr>
+						<th scope="col">N°</th>
+						<th scope="col">Image</th>
+						<th scope="col">Titre</th>
+						<th scope="col">Catégorie</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Réduction (%)</th>
+						<th scope="col">Prix après Réduction</th>
+						<th scope="col">Statut</th>
+						<th scope="col">Stock</th>
+						<th scope="col">Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="p,c:${products}">
+						<th scope="row">[[${c.count}]]</th>
+						<td>
+							<img th:src="@{'/img/product_img/'+${p.image}}" width="70px" height="70px" alt="Image Produit">
+						</td>
+						<td>[[${p.title}]]</td>
+						<td>[[${p.category}]]</td>
+						<td>[[${p.price}]] €</td>
+						<td>[[${p.discount}]]%</td>
+						<td>[[${p.discountPrice}]] €</td>
+						<td th:text="${p.isActive ? 'Actif' : 'Inactif'}"></td>
+						<td>[[${p.stock}]]</td>
+						<td>
+							<!-- Lien pour éditer -->
+							<a th:href="@{'/admin/editProduct/'+${p.id}}" class="btn btn-sm btn-primary">
+								<i class="fa-solid fa-pen-to-square"></i> Modifier
+							</a>
+							<!-- Lien pour supprimer -->
+							<a th:href="@{'/admin/deleteProduct/'+${p.id}}" class="btn btn-sm btn-danger">
+								<i class="fa-solid fa-trash"></i> Supprimer
+							</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<!-- Pagination -->
+				<div class="row">
+					<div class="col-md-4">Total Produits : [[${totalElements}]]</div>
+					<div class="col-md-6">
+						<nav aria-label="Pagination des produits">
+							<ul class="pagination">
+								<!-- Bouton précédent -->
+								<li class="page-item" th:classappend="${isFirst} ? 'disabled':''">
+									<a class="page-link" th:href="@{'/admin/products?pageNo='+${pageNo-1}}" aria-label="Précédent">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+								<!-- Numéros de page -->
+								<li th:each="i:${#numbers.sequence(1,totalPages)}"
+									class="page-item" th:classappend="${pageNo+1==i}?'active':''">
+									<a class="page-link" th:href="@{'/admin/products?pageNo='+${i-1}}">[[${i}]]</a>
+								</li>
+								<!-- Bouton suivant -->
+								<li class="page-item" th:classappend="${isLast} ? 'disabled':''">
+									<a class="page-link" th:href="@{'/admin/products?pageNo='+${pageNo+1}}" aria-label="Suivant">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+</html>
